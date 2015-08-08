@@ -73,7 +73,7 @@ server.route([{
     }
 }]);
 
-server.register(require('./'), function (err) {
+server.register(require('hapi-to'), function (err) {
     
     server.start();
 });
