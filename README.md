@@ -54,11 +54,16 @@ server.route([{
     path: '/',
     handler: function (request, reply) {
 
-        reply.redirect(request.to('hello'));
+        var url = request.to('hello', {
+            path: { thing: 'stitch', num: 'nine' },
+            query: { page: '1' }
+        });
+
+        reply.redirect(url);
     }
 }, {
     method: 'GET',
-    path: '/not-hello-anymore',
+    path: '/a/{thing}/in/{num}/saves/time',
     config: {
         id: 'hello',
         handler: function (request, reply) {
@@ -68,7 +73,10 @@ server.route([{
     }
 }]);
 
-server.register(require('hapi-to'), function (err) {
+server.register(require('./'), function (err) {
     
     server.start();
 });
+```
+
+If you run the above example and navigate to http://localhost:8080/ you will be redirected to http://localhost:8080/a/stitch/in/nine/saves/time?page=1
