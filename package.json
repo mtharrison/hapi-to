@@ -1,0 +1,34 @@
+{
+  "name": "hapi-to",
+  "version": "0.0.0",
+  "description": "Creates URLs to named routes ",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "lab -a code -t 100 -L"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mtharrison/hapi-to.git"
+  },
+  "keywords": [
+    "hapi",
+    "url",
+    "routes"
+  ],
+  "author": "Matt Harrison",
+  "license": "BSD-3",
+  "bugs": {
+    "url": "https://github.com/mtharrison/hapi-to/issues"
+  },
+  "homepage": "https://github.com/mtharrison/hapi-to",
+  "devDependencies": {
+    "code": "^1.5.0",
+    "hapi": "^8.8.1",
+    "lab": "^5.15.0"
+  },
+  "dependencies": {
+    "hoek": "^2.14.0",
+    "joi": "^6.6.1",
+    "qs": "^4.0.0"
+  }
+}
