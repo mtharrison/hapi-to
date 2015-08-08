@@ -30,7 +30,7 @@ After registering, hapi-to will decorate the [hapi request object](hapijs.com/ap
 
 ### `request.to(id, params, options)`
 
-Injects a fake request into an HTTP server.
+Returns a URL to a route
 
 - `id` - required route id. Set when creating a route with the `config.id` property.
 - `params` - request parameters where:
