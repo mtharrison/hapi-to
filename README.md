@@ -35,7 +35,7 @@ Injects a fake request into an HTTP server.
 - `id` - required route id. Set when creating a route with the `config.id` property.
 - `params` - request parameters where:
   - `query` - an optional object of query string key-values. Will be stringified using the Qs module.
-  - `path` - an optional object of path parameters. Number given must match route path.
+  - `params` - an optional object of path parameters. Number given must match route path.
 - `options` - additional options which affect how the URL is generated where:
   - `rel` - Whether to generate a relative URL. Can be` true` or `false` (default).
   - `secure` - a boolean or "match". If `true` the URL will be https, if `false` will be http. If `"match`" (the default) will match the x-forwarded-proto header or the current request's connection protocol (in that order).
@@ -55,7 +55,7 @@ server.route([{
     handler: function (request, reply) {
 
         var url = request.to('hello', {
-            path: { thing: 'stitch', num: 'nine' },
+            params: { thing: 'stitch', num: 'nine' },
             query: { page: '1' }
         });
 
