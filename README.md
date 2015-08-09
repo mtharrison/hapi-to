@@ -1,4 +1,4 @@
-# hapi-to [![Build Status](https://travis-ci.org/mtharrison/hapi-to.svg)](https://travis-ci.org/mtharrison/hapi-to) [![Coverage Status](https://coveralls.io/repos/mtharrison/hapi-to/badge.svg?branch=master&service=github)](https://coveralls.io/github/mtharrison/hapi-to?branch=master)
+# hapi-to [![Build Status](https://travis-ci.org/mtharrison/hapi-to.svg)](https://travis-ci.org/mtharrison/hapi-to)
 
 This plugin gives you an API for generating URLs dynamically in hapi using route ids and optional parameters, so you don't need to hardcode them into your views. This helps a bunch if you change the path structure of your routes in the future.
 
