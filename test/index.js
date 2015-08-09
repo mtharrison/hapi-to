@@ -215,6 +215,62 @@ describe('request.to()', function () {
         });
     });
 
+    it('Works on multi params', function (done) {
+
+        server.route([{
+            method: 'GET',
+            path: '/',
+            handler: function (request, reply) {
+
+                reply(request.to('me', { params: { path: ['a', 'b', 'c'] } }));
+            }
+        }, {
+            method: 'GET',
+            path: '/{path*3}',
+            config: {
+                id: 'me',
+                handler: function (request, reply) {
+
+                    reply();
+                }
+            }
+        }]);
+
+        server.inject('http://localhost:4000/', function (res) {
+
+            expect(res.payload).to.equal('http://localhost:4000/a/b/c');
+            done();
+        });
+    });
+
+    it('Throws if incorrect num of params given for multi param path', function (done) {
+
+        server.route([{
+            method: 'GET',
+            path: '/',
+            handler: function (request, reply) {
+
+                reply(request.to('me', { params: { path: ['a', 'b'] } }));
+            }
+        }, {
+            method: 'GET',
+            path: '/{path*3}',
+            config: {
+                id: 'me',
+                handler: function (request, reply) {
+
+                    reply();
+                }
+            }
+        }]);
+
+        server.inject('http://localhost:4000/', function (res) {
+
+            expect(res.statusCode).to.equal(500);
+            done();
+        });
+    });
+
     it('Can append a query string', function (done) {
 
         server.route([{
