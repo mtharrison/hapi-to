@@ -271,6 +271,63 @@ describe('request.to()', function () {
         });
     });
 
+    it('Works on optional params', function (done) {
+
+        server.route([{
+            method: 'GET',
+            path: '/',
+            handler: function (request, reply) {
+
+                reply(request.to('route', { params: { param: 'param' } }));
+            }
+        }, {
+            method: 'GET',
+            path: '/optional/{param?}',
+            config: {
+                id: 'route',
+                handler: function (request, reply) {
+
+                    reply();
+                }
+            }
+        }]);
+
+        server.inject('http://localhost:4000/', function (res) {
+
+            expect(res.payload).to.equal('http://localhost:4000/optional/param');
+            done();
+        });
+    });
+
+    it('Strips optional params from path if none specified', function (done) {
+
+        server.route([{
+            method: 'GET',
+            path: '/',
+            handler: function (request, reply) {
+
+                reply(request.to('route'));
+            }
+        }, {
+            method: 'GET',
+            path: '/optional/{param?}',
+            config: {
+                id: 'route',
+                handler: function (request, reply) {
+
+                    reply();
+                }
+            }
+        }]);
+
+        server.inject('http://localhost:4000/', function (res) {
+
+            expect(res.statusCode).to.equal(200);
+            expect(res.payload).to.equal('http://localhost:4000/optional/');
+            done();
+        });
+    });
+
     it('Can append a query string', function (done) {
 
         server.route([{
