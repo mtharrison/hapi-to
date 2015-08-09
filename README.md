@@ -6,7 +6,7 @@ This plugin gives you an API for generating URLs dynamically in hapi using route
 
  - Let's you change paths without breaking existing links + redirects
  - 100% test coverage
- - Works with params (including wildcard, optional and multi-params)
+ - Works with query and path params (including wildcard, optional and multi-params)
  - Configurable with options
 
 ##Install
