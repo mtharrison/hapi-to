@@ -59,6 +59,46 @@ describe('request.to()', function () {
         });
     });
 
+    it('works with routes inside plugins with prefixes', function (done) {
+
+        var plugin = function (serv, options, next) {
+
+            serv.route({
+                method: 'GET',
+                path: '/hello',
+                config: {
+                    id: 'hello',
+                    handler: function (request, reply) {
+
+                        reply();
+                    }
+                }
+            });
+
+            next();
+        };
+
+        plugin.attributes = { name: 'plugin' };
+
+        server.route({
+            method: 'GET',
+            path: '/',
+            handler: function (request, reply) {
+
+                reply(request.to('hello'));
+            }
+        });
+
+        server.register(plugin, { routes: { prefix: '/prefixed-with' } }, function () {
+
+            server.inject('http://localhost:4000/', function (res) {
+
+                expect(res.payload).to.equal('http://localhost:4000/prefixed-with/hello');
+                done();
+            });
+        });
+    });
+
     it('Throws if there\'s no matching route', function (done) {
 
         server.route({
