@@ -1,8 +1,8 @@
 # IDE files
 .idea
 
-# Compiled files
-lib/
+# ES6 source files
+src/
 
 # Dependencies
 node_modules
