@@ -1,6 +1,6 @@
 {
-  "name": "akaya",
-  "description": "Generate URIs based on ID and parameters",
+  "name": "hapi-to",
+  "description": "Generate URIs based on named hapi routes, their ID and parameters",
   "keywords": [
     "hapi",
     "url",
@@ -8,21 +8,17 @@
     "route",
     "routes"
   ],
-  "version": "0.0.1",
-  "license": "MIT",
-  "author": {
-    "name": "Felix Heck",
-    "email": "hi@whoTheHeck.de",
-    "url": "http://whoTheHeck.de"
-  },
+  "version": "1.0.0",
+  "license": "BSD-3",
+  "author": "Matt Harrison",
   "repository": {
     "type": "git",
-    "url": "https://github.com/felixheck/akaya.git"
+    "url": "git@github.com:mtharrison/hapi-to.git"
   },
   "bugs": {
-    "email": "hi@whoTheHeck.com",
-    "url": "https://github.com/felixheck/akaya/issues"
+    "url": "https://github.com/mtharrison/hapi-to/issues"
   },
+  "homepage": "https://github.com/mtharrison/hapi-to",
   "main": "./lib/index.js",
   "config": {
     "tapeOptions": "-r babel-core/register test/**/*.spec.js"

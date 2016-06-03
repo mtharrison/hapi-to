@@ -1,5 +1,5 @@
 # hapi-to [![Build Status](https://travis-ci.org/mtharrison/hapi-to.svg)](https://travis-ci.org/mtharrison/hapi-to)
-#### Generate URIs based on [hapi](https://github.com/hapijs/hapi) routes, their ID and parameters
+#### Generate URIs based on named [hapi](https://github.com/hapijs/hapi) routes, their ID and parameters
 ---
 
 1. [Introduction](#introduction)
