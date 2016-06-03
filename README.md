@@ -35,7 +35,7 @@ After registering, hapi-to will decorate the [hapi request object](hapijs.com/ap
 
 ##API
 
-### `request.to(id, params, options)`
+### `request.aka(id, params, options)`
 
 Returns a URL to a route
 
@@ -61,7 +61,7 @@ server.route([{
     path: '/',
     handler: function (request, reply) {
 
-        var url = request.to('hello', {
+        var url = request.aka('hello', {
             params: { thing: 'stitch', num: 'nine' },
             query: { page: '1' }
         });
@@ -73,7 +73,7 @@ server.route([{
     path: '/multi',
     handler: function (request, reply) {
 
-        var url = request.to('rick', {
+        var url = request.aka('rick', {
             params: { multi: ['never', 'gonna', 'give', 'you', 'up'] }
         });
 

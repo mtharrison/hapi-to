@@ -113,7 +113,7 @@ function parsePlain(params, section, stripped) {
  * @param {Function} next The callback to continue in the chain of plugins
  */
 function akaya(server, pluginOptions, next) {
-  server.decorate('request', 'to', function decorator(id, params = {}, options = {}) {
+  server.decorate('request', 'aka', function decorator(id, params = {}, options = {}) {
     params = Joi.attempt(params, internals.scheme.params);
     options = Joi.attempt(options, internals.scheme.options);
 

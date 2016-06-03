@@ -8,7 +8,7 @@ test('akaya/options >> secure option when `true` forces https', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('hello', {}, { secure: true }));
+      reply(request.aka('hello', {}, { secure: true }));
     }
   }, {
     method: 'GET',
@@ -34,7 +34,7 @@ test('akaya/options >> secure option when `false` forces http', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('hello', {}, { secure: false }));
+      reply(request.aka('hello', {}, { secure: false }));
     }
   }, {
     method: 'GET',
@@ -76,7 +76,7 @@ test('akaya/options >> auto detecting secure option when not set', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('hello', {}));
+      reply(request.aka('hello', {}));
     }
   }, {
     method: 'GET',
@@ -106,7 +106,7 @@ test('akaya/options >> gives a relative url when rel is true', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('hello', { }, { rel: true }));
+      reply(request.aka('hello', { }, { rel: true }));
     }
   }, {
     method: 'GET',
@@ -132,7 +132,7 @@ test(' akaya/options >> can override the host with host option', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('hello', { }, { host: 'beef.io:5000' }));
+      reply(request.aka('hello', { }, { host: 'beef.io:5000' }));
     }
   }, {
     method: 'GET',

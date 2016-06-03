@@ -8,7 +8,7 @@ test('akaya >> can get a URL to a named route', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('hello'));
+      reply(request.aka('hello'));
     }
   }, {
     method: 'GET',
@@ -51,7 +51,7 @@ test('akaya >> works with routes inside plugins with prefixes', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('hello'));
+      reply(request.aka('hello'));
     }
   });
 
@@ -71,7 +71,7 @@ test('akaya >> throws if there\'s no matching route', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('hello'));
+      reply(request.aka('hello'));
     }
   });
 
@@ -89,7 +89,7 @@ test('akaya >> throws if there\'s no specified params for a path with params', t
     method: 'GET',
     path: '/{name}',
     handler: function (request, reply) {
-      reply(request.to('hello'));
+      reply(request.aka('hello'));
     }
   });
 
@@ -107,7 +107,7 @@ test('akaya >> throws if there\'s a mismatch in number of params required and gi
     method: 'GET',
     path: '/{hello}/to/{name}',
     handler: function (request, reply) {
-      reply(request.to('hello', { params: { hello: 'there' } }));
+      reply(request.aka('hello', { params: { hello: 'there' } }));
     }
   });
 
@@ -122,7 +122,7 @@ test('akaya >> can place params in the URL', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('me', { params: { name: 'matt', age: '29' } }));
+      reply(request.aka('me', { params: { name: 'matt', age: '29' } }));
     }
   }, {
     method: 'GET',
@@ -148,7 +148,7 @@ test('akaya >> works on wildcard params', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('me', { params: { path: 'something/good' } }));
+      reply(request.aka('me', { params: { path: 'something/good' } }));
     }
   }, {
     method: 'GET',
@@ -174,7 +174,7 @@ test('akaya >> works on multi params', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('me', { params: { path: ['a', 'b', 'c'] } }));
+      reply(request.aka('me', { params: { path: ['a', 'b', 'c'] } }));
     }
   }, {
     method: 'GET',
@@ -200,7 +200,7 @@ test('akaya >> throws if incorrect num of params given for multi param path', t 
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('me', { params: { path: ['a', 'b'] } }));
+      reply(request.aka('me', { params: { path: ['a', 'b'] } }));
     }
   }, {
     method: 'GET',
@@ -224,7 +224,7 @@ test('akaya >> Strips optional params from path if none specified', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('route'));
+      reply(request.aka('route'));
     }
   }, {
     method: 'GET',
@@ -251,7 +251,7 @@ test('akaya >> can append a query string', t => {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-      reply(request.to('me', {
+      reply(request.aka('me', {
         params: {
           name: 'matt',
           age: '29'
