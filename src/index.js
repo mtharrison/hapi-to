@@ -1,8 +1,7 @@
-'use strict';
-
-var Joi = require('joi');
-var Hoek = require('hoek');
-var Querystring = require('qs');
+const Joi = require('joi');
+const Hoek = require('hoek');
+const Querystring = require('qs');
+const pkg = require('../package.json');
 
 /**
  * @type {Object}
@@ -11,22 +10,23 @@ var Querystring = require('qs');
  * @description
  * Store internal objects
  */
-var internals = {
+const internals = {
   regexp: {
     braces: /[\{\}']+/g,
-    params: /\{(\w+|\w+\?|\w+\*[1-9][0-9]*)?\}/g
+    params: /\{(\w+\*?|\w+\?|\w+\*[1-9][0-9]*)\}/g,
+    wildcard: /\*$/g,
   },
   scheme: {
     params: {
       query: Joi.object(),
-      params: Joi.object()
+      params: Joi.object(),
     },
     options: {
       secure: Joi.boolean(),
       rel: Joi.boolean().default(false),
-      host: Joi.string()
-    }
-  }
+      host: Joi.string(),
+    },
+  },
 };
 
 /**
@@ -42,9 +42,13 @@ var internals = {
  * @returns {*} Parsed source and destination for replacement
  */
 function parseOptional(params, section, stripped) {
-  var key = params[stripped.slice(0, -1)];
+  stripped = stripped.slice(0, -1);
+  const key = params && params[stripped] ? params[stripped] : '';
 
-  return key && key.toString() ? { dst: section, src: key } : { dst: '/' + section, src: '' };
+  return {
+    dst: key && key.toString() ? section : `/${section}`,
+    src: key,
+  };
 }
 
 /**
@@ -60,17 +64,23 @@ function parseOptional(params, section, stripped) {
  * @returns {*} Parsed source and destination for replacement
  */
 function parseMulti(params, section, stripped) {
-  var split = stripped.split('*');
-  var value = params.params[split[0]];
+  const split = stripped.split('*');
+  const value = params[split[0]];
 
-  Hoek.assert(Array.isArray(value), 'The ' + stripped + ' parameter should be an array');
+  Hoek.assert(
+    Array.isArray(value),
+    `The ${stripped} parameter should be an array`
+  );
 
-  Hoek.assert(parseInt(split[1], 10) === value.length, 'The number of passed multi-parameter does not match the multiplier');
+  Hoek.assert(
+    parseInt(split[1], 10) === value.length,
+    'The number of passed multi-parameter does not match the multiplier'
+  );
 
-  var src = value.join('/');
-  Hoek.assert(src, 'The \'' + stripped + ' parameter is missing');
+  const src = value.join('/');
+  Hoek.assert(src, `The '${stripped} parameter is missing`);
 
-  return { dst: section, src: src };
+  return { dst: section, src };
 }
 
 /**
@@ -86,10 +96,10 @@ function parseMulti(params, section, stripped) {
  * @returns {*} Parsed source and destination for replacement
  */
 function parsePlain(params, section, stripped) {
-  var src = params[stripped];
-  Hoek.assert(src, 'The \'' + stripped + ' parameter is missing');
+  stripped = stripped.replace(internals.regexp.wildcard, '');
+  Hoek.assert(params && params[stripped], `The '${stripped}' parameter is missing`);
 
-  return { dst: section, src: src };
+  return { dst: section, src: params[stripped] };
 }
 
 /**
@@ -103,28 +113,28 @@ function parsePlain(params, section, stripped) {
  * @param {Object} pluginOptions The plugin options
  * @param {Function} next The callback to continue in the chain of plugins
  */
-function akaya(server, pluginOptions, next) {
-  server.decorate('request', 'to', function decorator(id) {
-    var params = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
+function hapiTo(server, pluginOptions, next) {
+  server.decorate('request', 'to', function decorator(id, params = {}, options = {}) {
     params = Joi.attempt(params, internals.scheme.params);
     options = Joi.attempt(options, internals.scheme.options);
 
-    var route = Object.assign({}, server.lookup(id));
-    var protocol = this.headers['x-forwarded-proto'] || this.connection.info.protocol;
+    const route = Object.assign({}, server.lookup(id));
+    let protocol = this.headers['x-forwarded-proto'] || this.connection.info.protocol;
 
-    Hoek.assert(route, 'There is no matching route available');
+    Hoek.assert(
+      !Hoek.deepEqual({}, route),
+      'There is no matching route available'
+    );
 
-    var routeSections = route.path.match(internals.regexp.params) || [];
+    const routeSections = route.path.match(internals.regexp.params) || [];
 
-    routeSections.forEach(function (routeSection) {
-      var stripped = routeSection.replace(internals.regexp.braces, '');
-      var parsed = void 0;
+    routeSections.forEach(routeSection => {
+      const stripped = routeSection.replace(internals.regexp.braces, '');
+      let parsed;
 
       if (stripped.includes('?')) {
         parsed = parseOptional(params.params, routeSection, stripped);
-      } else if (stripped.includes('*')) {
+      } else if (stripped.includes('*') && stripped.slice(-1) !== '*') {
         parsed = parseMulti(params.params, routeSection, stripped);
       } else {
         parsed = parsePlain(params.params, routeSection, stripped);
@@ -134,7 +144,7 @@ function akaya(server, pluginOptions, next) {
     });
 
     if (params.query) {
-      route.path += '?' + Querystring.stringify(params.query);
+      route.path += `?${Querystring.stringify(params.query)}`;
     }
 
     if (options.rel) {
@@ -147,14 +157,16 @@ function akaya(server, pluginOptions, next) {
       protocol = 'http';
     }
 
-    return protocol + '://' + (options.host || this.info.host) + route.path;
+    return `${protocol}://${options.host || this.info.host}${route.path}`;
   });
 
   next();
 }
 
-exports.register = akaya;
-exports.register.attributes = {
-  name: 'hapi-to',
-  version: require('../package').version
+hapiTo.attributes = {
+  pkg,
+};
+
+module.exports = {
+  register: hapiTo,
 };
