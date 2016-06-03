@@ -161,6 +161,7 @@ $ npm start
 To get information about the test coverage, use:
 ```
 $ npm run coverage
+```
 
 ## Contribution
 Fork this repository and push in your ideas.
