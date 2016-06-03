@@ -1,7 +1,7 @@
 const test = require('tape').test;
 const { setup } = require('./utils');
 
-test('akaya/options >> secure option when `true` forces https', t => {
+test('hapi-to/options >> secure option when `true` forces https', t => {
   const { server } = setup();
 
   server.route([{
@@ -27,7 +27,7 @@ test('akaya/options >> secure option when `true` forces https', t => {
   });
 });
 
-test('akaya/options >> secure option when `false` forces http', t => {
+test('hapi-to/options >> secure option when `false` forces http', t => {
   const { server } = setup();
 
   server.route([{
@@ -53,7 +53,7 @@ test('akaya/options >> secure option when `false` forces http', t => {
   });
 });
 
-test('akaya/options >> auto detecting secure option when not set', t => {
+test('hapi-to/options >> auto detecting secure option when not set', t => {
   const { server } = setup();
   
   const options = {
@@ -99,7 +99,7 @@ test('akaya/options >> auto detecting secure option when not set', t => {
   });
 });
 
-test('akaya/options >> gives a relative url when rel is true', t => {
+test('hapi-to/options >> gives a relative url when rel is true', t => {
   const { server } = setup();
 
   server.route([{
@@ -125,7 +125,7 @@ test('akaya/options >> gives a relative url when rel is true', t => {
   });
 });
 
-test(' akaya/options >> can override the host with host option', t => {
+test(' hapi-to/options >> can override the host with host option', t => {
   const { server } = setup();
 
   server.route([{

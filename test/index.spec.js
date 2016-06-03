@@ -1,7 +1,7 @@
 const test = require('tape').test;
 const { setup } = require('./utils');
 
-test('akaya >> can get a URL to a named route', t => {
+test('hapi-to >> can get a URL to a named route', t => {
   const { server } = setup();
   
   server.route([{
@@ -27,7 +27,7 @@ test('akaya >> can get a URL to a named route', t => {
   });
 });
 
-test('akaya >> works with routes inside plugins with prefixes', t => {
+test('hapi-to >> works with routes inside plugins with prefixes', t => {
   const { server } = setup();
 
   function plugin(serv, options, next) {
@@ -64,7 +64,7 @@ test('akaya >> works with routes inside plugins with prefixes', t => {
   });
 });
 
-test('akaya >> throws if there\'s no matching route', t => {
+test('hapi-to >> throws if there\'s no matching route', t => {
   const { server } = setup();
 
   server.route({
@@ -79,7 +79,7 @@ test('akaya >> throws if there\'s no matching route', t => {
   t.end();
 });
 
-test('akaya >> throws if there\'s no specified params for a path with params', t => {
+test('hapi-to >> throws if there\'s no specified params for a path with params', t => {
   const { server } = setup();
 
   server.route({
@@ -97,7 +97,7 @@ test('akaya >> throws if there\'s no specified params for a path with params', t
   t.end();
 });
 
-test('akaya >> throws if there\'s a mismatch in number of params required and given', t => {
+test('hapi-to >> throws if there\'s a mismatch in number of params required and given', t => {
   const { server } = setup();
 
   server.route({
@@ -115,7 +115,7 @@ test('akaya >> throws if there\'s a mismatch in number of params required and gi
   t.end();
 });
 
-test('akaya >> can place params in the URL', t => {
+test('hapi-to >> can place params in the URL', t => {
   const { server } = setup();
 
   server.route([{
@@ -141,7 +141,7 @@ test('akaya >> can place params in the URL', t => {
   });
 });
 
-test('akaya >> works on wildcard params', t => {
+test('hapi-to >> works on wildcard params', t => {
   const { server} = setup();
 
   server.route([{
@@ -167,7 +167,7 @@ test('akaya >> works on wildcard params', t => {
   });
 });
 
-test('akaya >> works on multi params', t => {
+test('hapi-to >> works on multi params', t => {
   const { server } = setup();
 
   server.route([{
@@ -193,7 +193,7 @@ test('akaya >> works on multi params', t => {
   });
 });
 
-test('akaya >> throws if incorrect num of params given for multi param path', t => {
+test('hapi-to >> throws if incorrect num of params given for multi param path', t => {
   const { server } = setup();
 
   server.route([{
@@ -217,7 +217,7 @@ test('akaya >> throws if incorrect num of params given for multi param path', t 
   t.end();
 });
 
-test('akaya >> Strips optional params from path if none specified', t => {
+test('hapi-to >> Strips optional params from path if none specified', t => {
   const { server } = setup();
 
   server.route([{
@@ -244,7 +244,7 @@ test('akaya >> Strips optional params from path if none specified', t => {
   });
 });
 
-test('akaya >> can append a query string', t => {
+test('hapi-to >> can append a query string', t => {
   const { server } = setup();
 
   server.route([{

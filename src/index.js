@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const Hoek = require('hoek');
 const Querystring = require('qs');
+const pkg = require('../package.json');
 
 /**
  * @type {Object}
@@ -112,7 +113,7 @@ function parsePlain(params, section, stripped) {
  * @param {Object} pluginOptions The plugin options
  * @param {Function} next The callback to continue in the chain of plugins
  */
-function akaya(server, pluginOptions, next) {
+function hapiTo(server, pluginOptions, next) {
   server.decorate('request', 'to', function decorator(id, params = {}, options = {}) {
     params = Joi.attempt(params, internals.scheme.params);
     options = Joi.attempt(options, internals.scheme.options);
@@ -162,11 +163,10 @@ function akaya(server, pluginOptions, next) {
   next();
 }
 
-akaya.attributes = {
-  name: 'hapi-to',
-  version: require('../package').version,
+hapiTo.attributes = {
+  pkg,
 };
 
 module.exports = {
-  register: akaya,
+  register: hapiTo,
 };
